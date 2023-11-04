@@ -1018,8 +1018,8 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </schema>
     <schema id="292" parent="1" name="mydb">
       <Current>1</Current>
-      <IntrospectionTimestamp>2023-09-19.13:52:07</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-09-19.07:52:07</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-11-03.03:04:47</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-11-02.21:04:47</LocalIntrospectionTimestamp>
       <CollationName>utf8mb3_general_ci</CollationName>
     </schema>
     <user id="293" parent="1" name="mysql.infoschema">
@@ -1082,16 +1082,15 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </column>
     <column id="306" parent="297" name="year">
       <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
     <column id="307" parent="297" name="status">
-      <DasType>blob|0s</DasType>
+      <DasType>tinyint(1)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
     <column id="308" parent="297" name="rentPrice">
-      <DasType>decimal(10,2 digit)|0s</DasType>
+      <DasType>float|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
@@ -1214,7 +1213,7 @@ idClient</ColNames>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="332" parent="301" name="idManager">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>2</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1259,11 +1258,11 @@ idClient</ColNames>
       <Position>4</Position>
     </column>
     <column id="341" parent="302" name="sum">
-      <DasType>decimal(10,2 digit)|0s</DasType>
+      <DasType>float|0s</DasType>
       <Position>5</Position>
     </column>
     <column id="342" parent="302" name="status">
-      <DasType>blob|0s</DasType>
+      <DasType>tinyint(1)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
