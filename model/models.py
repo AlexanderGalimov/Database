@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -19,32 +19,6 @@ class Manager(Base):
         self.fullName = fullName
         self.departmentNumber = departmentNumber
 
-    def create(self):
-        connection.session.add(self)
-        connection.session.commit()
-
-    def read_manager(self, manager_id):
-        manager = connection.session.query(Manager).filter_by(idManager=manager_id).first()
-        return manager
-
-    def update(manager_id, newFullName, newDepartmentNumber):
-        manager = connection.session.query(Manager).filter_by(idManager=manager_id).first()
-
-        if manager:
-            manager.fullName = newFullName
-            manager.departmentNumber = newDepartmentNumber
-            connection.session.commit()
-            return True
-        else:
-            return False
-
-    def delete(self):
-        connection.session.delete(self)
-        connection.session.commit()
-
-    def showAllManager(self):
-        return connection.session.query(Manager).all()
-
     @property
     def serialize(self):
         return {
@@ -61,6 +35,10 @@ class Client(Base):
     fullName = Column(String(45), nullable=False)
     contactInfo = Column(String(45))
 
+    def __init__(self, fullName, contactInfo):
+        self.fullName = fullName
+        self.contactInfo = contactInfo
+
     @property
     def serialize(self):
         return {
@@ -76,6 +54,9 @@ class Disturbance(Base):
     idDisturbance = Column(Integer, primary_key=True)
     idClient = Column(Integer, ForeignKey('Client.idClient'), nullable=False)
     client = relationship("Client")
+
+    def __init__(self, idClient):
+        self.idClient = idClient
 
     @property
     def serialize(self):
@@ -94,6 +75,10 @@ class CustomerServiceManager(Base):
     manager = relationship("Manager")
     client = relationship("Client")
 
+    def __init__(self, idManager, idClient):
+        self.idManager = idManager
+        self.idClient = idClient
+
     @property
     def serialize(self):
         return {
@@ -109,10 +94,15 @@ class Rent(Base):
 
     idRent = Column(Integer, primary_key=True)
     idClient = Column(Integer, ForeignKey('Client.idClient'), nullable=False)
-    startDate = Column(Date, nullable=False)
-    endDate = Column(Date)
+    amountOfDays = Column(Integer, nullable=False)
     sum = Column(Float)
     status = Column(Integer, nullable=False)
+
+    def __init__(self, idClient, amountOfDays, s, status):
+        self.idClient = idClient
+        self.amountOfDays = amountOfDays
+        self.sum = s
+        self.status = status
 
     @property
     def serialize(self):
@@ -135,6 +125,13 @@ class Auto(Base):
     year = Column(Integer)
     status = Column(Integer, nullable=False)
     rentPrice = Column(Float, nullable=False)
+
+    def __init__(self, idRent, makeAndModel, year, status, rentPrice):
+        self.idRent = idRent
+        self.makeAndModel = makeAndModel
+        self.year = year
+        self.status = status
+        self.rentPrice = rentPrice
 
     @property
     def serialize(self):

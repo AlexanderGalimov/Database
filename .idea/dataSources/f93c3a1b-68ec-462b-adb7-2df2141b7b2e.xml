@@ -1018,8 +1018,8 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </schema>
     <schema id="292" parent="1" name="mydb">
       <Current>1</Current>
-      <IntrospectionTimestamp>2023-11-03.03:04:47</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-11-02.21:04:47</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-11-05.01:35:31</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-11-04.19:35:31</LocalIntrospectionTimestamp>
       <CollationName>utf8mb3_general_ci</CollationName>
     </schema>
     <user id="293" parent="1" name="mysql.infoschema">
@@ -1213,7 +1213,7 @@ idClient</ColNames>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="332" parent="301" name="idManager">
-      <AutoIncrement>2</AutoIncrement>
+      <AutoIncrement>6</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1248,41 +1248,37 @@ idClient</ColNames>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="339" parent="302" name="startDate">
-      <DasType>date|0s</DasType>
+    <column id="339" parent="302" name="amountOfDays">
+      <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="340" parent="302" name="endDate">
-      <DasType>date|0s</DasType>
+    <column id="340" parent="302" name="sum">
+      <DasType>float|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="341" parent="302" name="sum">
-      <DasType>float|0s</DasType>
-      <Position>5</Position>
-    </column>
-    <column id="342" parent="302" name="status">
+    <column id="341" parent="302" name="status">
       <DasType>tinyint(1)|0s</DasType>
       <NotNull>1</NotNull>
-      <Position>6</Position>
+      <Position>5</Position>
     </column>
-    <foreign-key id="343" parent="302" name="idClient3">
+    <foreign-key id="342" parent="302" name="idClient3">
       <ColNames>idClient</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>idClient</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
-    <index id="344" parent="302" name="PRIMARY">
+    <index id="343" parent="302" name="PRIMARY">
       <ColNames>idRent</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="345" parent="302" name="idClient_idx">
+    <index id="344" parent="302" name="idClient_idx">
       <ColNames>idClient</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="346" parent="302" name="PRIMARY">
+    <key id="345" parent="302" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
