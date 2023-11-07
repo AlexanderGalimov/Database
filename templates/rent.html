@@ -8,8 +8,22 @@
 </head>
 <body>
 <div class="bg_cc">
+    <h1 class="centered-text">Confirm rent</h1>
     <header>
     </header>
+    <form action="{{ url_for('addRegistration') }}" method="POST">
+        <p>
+            fullName: <input type="text" size="45" name="fullName" placeholder="max 45 symbol"><br/>
+            contactInfo: <input type="text" size="45" name="contactInfo" placeholder="max 45 symbol"><br/>
+            amountOfDays: <input type="text" size="45" name="amountOfDays" placeholder="int num of days"><br/>
+            <input type="hidden" name="autoId" value="{{ idAuto }}">
+        </p>
+        <nav>
+            <div class="big_link">
+                <button class="send-button" type="submit">Confirm deal</button>
+            </div>
+        </nav>
+    </form>
 </div>
 </body>
 </html>

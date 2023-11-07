@@ -54,6 +54,7 @@ class Disturbance(Base):
     idDisturbance = Column(Integer, primary_key=True)
     idClient = Column(Integer, ForeignKey('Client.idClient'), nullable=False)
     client = relationship("Client")
+    description = Column(String(100), nullable=False)
 
     def __init__(self, idClient):
         self.idClient = idClient
@@ -63,7 +64,8 @@ class Disturbance(Base):
         return {
             "idDisturbance": self.idDisturbance,
             "idClient": self.idClient,
-            "client": self.client
+            "client": self.client,
+            "description": self.description
         }
 
 
@@ -92,7 +94,7 @@ class CustomerServiceManager(Base):
 class Rent(Base):
     __tablename__ = 'Rent'
 
-    idRent = Column(Integer, primary_key=True)
+    idRent = Column(Integer, primary_key=True, autoincrement=True)
     idClient = Column(Integer, ForeignKey('Client.idClient'), nullable=False)
     amountOfDays = Column(Integer, nullable=False)
     sum = Column(Float)
@@ -118,17 +120,19 @@ class Rent(Base):
 class Auto(Base):
     __tablename__ = 'Auto'
 
-    idAuto = Column(Integer, primary_key=True)
-    idRent = Column(Integer, ForeignKey('Rent.idRent'), nullable=False)
+    idAuto = Column(Integer, primary_key=True, autoincrement=True)
+    idRent = Column(Integer, ForeignKey('Rent.idRent'), nullable=True)  #
     makeAndModel = Column(String(45), nullable=False)
     status = Column(Integer, nullable=False)
     rentPrice = Column(Float, nullable=False)
+    imagePath = Column(String(45), nullable=True)
 
-    def __init__(self, idRent, makeAndModel, status, rentPrice):
+    def __init__(self, idRent, makeAndModel, status, rentPrice, imagePath):
         self.idRent = idRent
         self.makeAndModel = makeAndModel
         self.status = status
         self.rentPrice = rentPrice
+        self.imagePath = imagePath
 
     @property
     def serialize(self):
@@ -137,5 +141,6 @@ class Auto(Base):
             "idClient": self.idRent,
             "makeAndModel": self.makeAndModel,
             "status": self.status,
-            "rentPrice": self.rentPrice
+            "rentPrice": self.rentPrice,
+            "imagePath": self.imagePath
         }

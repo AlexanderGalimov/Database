@@ -1,3 +1,4 @@
+import random
 from abc import ABC, abstractmethod
 
 from sqlalchemy.orm.exc import UnmappedInstanceError
@@ -65,6 +66,14 @@ class ManagerService(Service):
         except UnmappedInstanceError as e:
             raise Exception(f"Error: {str(e)}")
 
+    def get_random_manager(self):
+        managers = self.connection.session.query(Manager.idManager).all()
+        column_list = [item[0] for item in managers]
+        if managers:
+            return random.choice(column_list)
+        else:
+            return 0
+
     def getAll(self):
         return self.connection.session.query(Manager).all()
 
@@ -127,10 +136,11 @@ class DisturbanceService(Service):
         except Exception as e:
             raise Exception(f"Error: {str(e)}")
 
-    def update(self, disturbanceId, newClient):
+    def update(self, disturbanceId, newClient, description):
         try:
             disturbance = self.read(disturbanceId)
             disturbance.idClient = newClient
+            disturbance.description = description
             self.connection.session.commit()
         except AttributeError as e:
             raise Exception(f"Error: {str(e)}")
@@ -199,9 +209,6 @@ class RentService(Service):
 
     def create(self, rent):
         try:
-            if rent.sum is None or rent.sum == 0:
-                rent.sum = self.count_sum(rent.idRent)
-
             self.connection.session.add(rent)
             self.connection.session.commit()
         except Exception as e:
@@ -214,7 +221,7 @@ class RentService(Service):
         except Exception as e:
             raise Exception(f"Error: {str(e)}")
 
-    def update(self, rentId, clientId, amountOfDays, newEndDate, newSum, status):
+    def update(self, rentId, clientId, amountOfDays, newSum, status):
         try:
             rent = self.read(rentId)
             rent.idClient = clientId
@@ -268,13 +275,14 @@ class AutoService(Service):
         except Exception as e:
             raise Exception(f"Error: {str(e)}")
 
-    def update(self, autoId, rentId, newMakeAndModel, year, status, rentPrice):
+    def update(self, autoId, rentId, newMakeAndModel, status, rentPrice, path):
         try:
             auto = self.read(rentId)
             auto.idRent = rentId
             auto.makeAndModel = newMakeAndModel
             auto.status = status
             auto.rentPrice = rentPrice
+            auto.imagePath = path
             self.connection.session.commit()
         except AttributeError as e:
             raise Exception(f"Error: {str(e)}")
