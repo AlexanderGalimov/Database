@@ -2,10 +2,10 @@ from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-from db.connection import Connection
+from db.dbconnection import dbConnection
 
 Base = declarative_base()
-connection = Connection()
+connection = dbConnection()
 
 
 class Manager(Base):
@@ -109,8 +109,7 @@ class Rent(Base):
         return {
             "idRent": self.idRent,
             "idClient": self.idClient,
-            "startDate": self.startDate,
-            "endDate": self.endDate,
+            "amountOfDays": self.amountOfDays,
             "sum": self.sum,
             "status": self.status
         }
@@ -122,14 +121,12 @@ class Auto(Base):
     idAuto = Column(Integer, primary_key=True)
     idRent = Column(Integer, ForeignKey('Rent.idRent'), nullable=False)
     makeAndModel = Column(String(45), nullable=False)
-    year = Column(Integer)
     status = Column(Integer, nullable=False)
     rentPrice = Column(Float, nullable=False)
 
-    def __init__(self, idRent, makeAndModel, year, status, rentPrice):
+    def __init__(self, idRent, makeAndModel, status, rentPrice):
         self.idRent = idRent
         self.makeAndModel = makeAndModel
-        self.year = year
         self.status = status
         self.rentPrice = rentPrice
 
@@ -139,7 +136,6 @@ class Auto(Base):
             "idRent": self.idAuto,
             "idClient": self.idRent,
             "makeAndModel": self.makeAndModel,
-            "year": self.endDate,
-            "status": self.sum,
-            "rentPrice": self.status
+            "status": self.status,
+            "rentPrice": self.rentPrice
         }

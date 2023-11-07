@@ -2,13 +2,13 @@ from abc import ABC, abstractmethod
 
 from sqlalchemy.orm.exc import UnmappedInstanceError
 
-from db.connection import Connection
+from db.dbconnection import dbConnection
 from model.models import Manager, Client, Disturbance, CustomerServiceManager, Rent, Auto
 
 
 class Service(ABC):
     def __init__(self):
-        self.connection = Connection()
+        self.connection = dbConnection()
 
     def create(self, *args) -> bool:
         pass
@@ -233,7 +233,7 @@ class RentService(Service):
             rentToRemove = self.read(rentId)
             self.connection.session.delete(rentToRemove)
             self.connection.session.commit()
-        except UnmappedInstanceError:
+        except UnmappedInstanceError as e:
             raise Exception(f"Error: {str(e)}")
 
     def getAll(self):

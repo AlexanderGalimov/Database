@@ -1018,8 +1018,8 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </schema>
     <schema id="292" parent="1" name="mydb">
       <Current>1</Current>
-      <IntrospectionTimestamp>2023-11-05.01:35:31</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-11-04.19:35:31</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-11-07.16:16:28</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-11-07.10:16:28</LocalIntrospectionTimestamp>
       <CollationName>utf8mb3_general_ci</CollationName>
     </schema>
     <user id="293" parent="1" name="mysql.infoschema">
@@ -1080,205 +1080,201 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="306" parent="297" name="year">
-      <DasType>int|0s</DasType>
+    <column id="306" parent="297" name="status">
+      <DasType>tinyint(1)|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="307" parent="297" name="status">
-      <DasType>tinyint(1)|0s</DasType>
+    <column id="307" parent="297" name="rentPrice">
+      <DasType>float|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="308" parent="297" name="rentPrice">
-      <DasType>float|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>6</Position>
-    </column>
-    <foreign-key id="309" parent="297" name="idRent">
+    <foreign-key id="308" parent="297" name="idRent">
       <ColNames>idRent</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>idRent</RefColNames>
       <RefTableName>rent</RefTableName>
     </foreign-key>
-    <index id="310" parent="297" name="PRIMARY">
+    <index id="309" parent="297" name="PRIMARY">
       <ColNames>idAuto</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="311" parent="297" name="idRent_idx">
+    <index id="310" parent="297" name="idRent_idx">
       <ColNames>idRent</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="312" parent="297" name="PRIMARY">
+    <key id="311" parent="297" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="313" parent="298" name="idClient">
+    <column id="312" parent="298" name="idClient">
       <AutoIncrement>1</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="314" parent="298" name="fullName">
+    <column id="313" parent="298" name="fullName">
       <DasType>varchar(45)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="315" parent="298" name="contactInfo">
+    <column id="314" parent="298" name="contactInfo">
       <DasType>varchar(45)|0s</DasType>
       <Position>3</Position>
     </column>
-    <index id="316" parent="298" name="PRIMARY">
+    <index id="315" parent="298" name="PRIMARY">
       <ColNames>idClient</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="317" parent="298" name="PRIMARY">
+    <key id="316" parent="298" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="318" parent="299" name="idManager">
+    <column id="317" parent="299" name="idManager">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="319" parent="299" name="idClient">
+    <column id="318" parent="299" name="idClient">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <foreign-key id="320" parent="299" name="idManager">
+    <foreign-key id="319" parent="299" name="idManager">
       <ColNames>idManager</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>idManager</RefColNames>
       <RefTableName>manager</RefTableName>
     </foreign-key>
-    <foreign-key id="321" parent="299" name="idClient2">
+    <foreign-key id="320" parent="299" name="idClient2">
       <ColNames>idClient</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>idClient</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
-    <index id="322" parent="299" name="PRIMARY">
+    <index id="321" parent="299" name="PRIMARY">
       <ColNames>idManager
 idClient</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="323" parent="299" name="idManager_idx">
+    <index id="322" parent="299" name="idManager_idx">
       <ColNames>idManager</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="324" parent="299" name="idClient_idx">
+    <index id="323" parent="299" name="idClient_idx">
       <ColNames>idClient</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="325" parent="299" name="PRIMARY">
+    <key id="324" parent="299" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="326" parent="300" name="idDisturbance">
+    <column id="325" parent="300" name="idDisturbance">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="327" parent="300" name="idClient">
+    <column id="326" parent="300" name="idClient">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <foreign-key id="328" parent="300" name="idClient1">
+    <foreign-key id="327" parent="300" name="idClient1">
       <ColNames>idClient</ColNames>
       <RefColNames>idClient</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
-    <index id="329" parent="300" name="PRIMARY">
+    <index id="328" parent="300" name="PRIMARY">
       <ColNames>idDisturbance</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="330" parent="300" name="idClient_idx">
+    <index id="329" parent="300" name="idClient_idx">
       <ColNames>idClient</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="331" parent="300" name="PRIMARY">
+    <key id="330" parent="300" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="332" parent="301" name="idManager">
+    <column id="331" parent="301" name="idManager">
       <AutoIncrement>6</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="333" parent="301" name="fullName">
+    <column id="332" parent="301" name="fullName">
       <DasType>varchar(45)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="334" parent="301" name="departmentNumber">
+    <column id="333" parent="301" name="departmentNumber">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <index id="335" parent="301" name="PRIMARY">
+    <index id="334" parent="301" name="PRIMARY">
       <ColNames>idManager</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="336" parent="301" name="PRIMARY">
+    <key id="335" parent="301" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="337" parent="302" name="idRent">
+    <column id="336" parent="302" name="idRent">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="338" parent="302" name="idClient">
+    <column id="337" parent="302" name="idClient">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="339" parent="302" name="amountOfDays">
+    <column id="338" parent="302" name="amountOfDays">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="340" parent="302" name="sum">
+    <column id="339" parent="302" name="sum">
       <DasType>float|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="341" parent="302" name="status">
+    <column id="340" parent="302" name="status">
       <DasType>tinyint(1)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <foreign-key id="342" parent="302" name="idClient3">
+    <foreign-key id="341" parent="302" name="idClient3">
       <ColNames>idClient</ColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
       <RefColNames>idClient</RefColNames>
       <RefTableName>client</RefTableName>
     </foreign-key>
-    <index id="343" parent="302" name="PRIMARY">
+    <index id="342" parent="302" name="PRIMARY">
       <ColNames>idRent</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="344" parent="302" name="idClient_idx">
+    <index id="343" parent="302" name="idClient_idx">
       <ColNames>idClient</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="345" parent="302" name="PRIMARY">
+    <key id="344" parent="302" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
