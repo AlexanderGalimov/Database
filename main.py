@@ -59,16 +59,9 @@ def addRegistration():
 
     car_service.update(idAuto, curr_rent.idRent, auto.makeAndModel, False, auto.rentPrice, auto.imagePath)
 
-    autos = car_service.getAll()
-    print("--------------")
-    for a in autos:
-        d = a.serialize
-        print(d)
-
-
     all_sum = rent_service.count_sum(curr_rent)
-    print(f"all sum {all_sum}")
     rent_service.update(curr_rent.idRent, curr_rent.idClient, curr_rent.amountOfDays, all_sum, curr_rent.status)
+    rent_service.commit_table()
 
     return render_template('confirm.html')
 

@@ -222,12 +222,12 @@ class RentService(Service):
             raise Exception(f"Error: {str(e)}")
 
     def update(self, rentId, clientId, amountOfDays, newSum, status):
-        self.connection.session.commit()
         try:
             rent = self.read(rentId)
             rent.idClient = clientId
             rent.amountOfDays = amountOfDays
             rent.status = status
+            rent.sum = newSum
             self.connection.session.commit()
         except AttributeError as e:
             raise Exception(f"Error: {str(e)}")
@@ -253,6 +253,9 @@ class RentService(Service):
             return total_rent
         except AttributeError as e:
             raise Exception(f"Error: {str(e)}")
+
+    def commit_table(self):
+        self.connection.session.commit()
 
 
 class AutoService(Service):
