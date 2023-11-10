@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 
 from model.models import Client, Rent, CustomerServiceManager
 from service.service import AutoService, ClientService, RentService, ManagerService, CustomerServiceManagerService
+import time
 
 car_service = AutoService()
 client_service = ClientService()
@@ -25,7 +26,6 @@ def car_choose():
 
 @app.route('/rent/<int:idAuto>')
 def rent(idAuto):
-    print(idAuto)
     return render_template("rent.html", idAuto=idAuto)
 
 
@@ -41,6 +41,7 @@ def addRegistration():
     if len(contactInfo) > 45 or len(fullName) == 0:
         return render_template("rent.html", idAuto=idAuto)
     try:
+        idAuto = int(idAuto)
         amountOfDays = int(amountOfDays)
     except TypeError:
         print("error")
@@ -51,14 +52,22 @@ def addRegistration():
     client_service.create(client)
     customerServiceManager = CustomerServiceManager(manager_service.get_random_manager(), client.idClient)
     customerServiceManagerService.create(customerServiceManager)
+    auto = car_service.read(idAuto)
 
     curr_rent = Rent(client.idClient, amountOfDays, 0, True)
     rent_service.create(curr_rent)
 
-    auto = car_service.read(idAuto)
     car_service.update(idAuto, curr_rent.idRent, auto.makeAndModel, False, auto.rentPrice, auto.imagePath)
 
-    all_sum = rent_service.count_sum(curr_rent.idRent)
+    autos = car_service.getAll()
+    print("--------------")
+    for a in autos:
+        d = a.serialize
+        print(d)
+
+
+    all_sum = rent_service.count_sum(curr_rent)
+    print(f"all sum {all_sum}")
     rent_service.update(curr_rent.idRent, curr_rent.idClient, curr_rent.amountOfDays, all_sum, curr_rent.status)
 
     return render_template('confirm.html')

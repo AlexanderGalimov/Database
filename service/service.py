@@ -11,7 +11,7 @@ class Service(ABC):
     def __init__(self):
         self.connection = dbConnection()
 
-    def create(self, *args) -> bool:
+    def create(self, *args):
         pass
 
     @abstractmethod
@@ -19,11 +19,11 @@ class Service(ABC):
         pass
 
     @abstractmethod
-    def update(self, *args) -> bool:
+    def update(self, *args):
         pass
 
     @abstractmethod
-    def remove(self, *args) -> bool:
+    def remove(self, *args):
         pass
 
     @abstractmethod
@@ -226,10 +226,6 @@ class RentService(Service):
             rent = self.read(rentId)
             rent.idClient = clientId
             rent.amountOfDays = amountOfDays
-            if newSum == 0 or newSum is None:
-                rent.sum = self.count_sum(rentId)
-            else:
-                rent.sum = newSum
             rent.status = status
             self.connection.session.commit()
         except AttributeError as e:
@@ -246,12 +242,21 @@ class RentService(Service):
     def getAll(self):
         return self.connection.session.query(Rent).all()
 
-    def count_sum(self, rentId):
+    def count_sum(self, rent):
+        #self.connection.session.commit()
+
+        print(f" id rent {rent.idRent}")
+        idRent_column = self.connection.session.query(Auto.idRent).all()
+
+        idRent_values = [row[0] for row in idRent_column]
+
+        print(idRent_values)
         try:
-            autos_for_rent = self.connection.session.query(Auto).filter(Auto.idRent == rentId).all()
+            auto = self.connection.session.query(Auto).filter(Auto.idRent == rent.idRent).first()
+            print(auto.serialize)
             total_rent = 0
-            for auto in autos_for_rent:
-                total_rent += auto.rentPrice * auto.rent.amountOfDays
+            amountOfDays = rent.amountOfDays
+            total_rent += auto.rentPrice * amountOfDays
             return total_rent
         except AttributeError as e:
             raise Exception(f"Error: {str(e)}")
@@ -277,15 +282,19 @@ class AutoService(Service):
 
     def update(self, autoId, rentId, newMakeAndModel, status, rentPrice, path):
         try:
-            auto = self.read(rentId)
+            auto = self.read(autoId)
             auto.idRent = rentId
             auto.makeAndModel = newMakeAndModel
             auto.status = status
             auto.rentPrice = rentPrice
             auto.imagePath = path
+            self.connection.session.add(auto)
             self.connection.session.commit()
         except AttributeError as e:
             raise Exception(f"Error: {str(e)}")
+
+    def commit(self):
+        self.connection.session.commit()
 
     def remove(self, autoId):
         try:

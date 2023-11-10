@@ -137,8 +137,8 @@ class Auto(Base):
     @property
     def serialize(self):
         return {
-            "idRent": self.idAuto,
-            "idClient": self.idRent,
+            "idAuto": self.idAuto,
+            "idRent": self.idRent,
             "makeAndModel": self.makeAndModel,
             "status": self.status,
             "rentPrice": self.rentPrice,
