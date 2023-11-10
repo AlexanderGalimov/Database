@@ -222,6 +222,7 @@ class RentService(Service):
             raise Exception(f"Error: {str(e)}")
 
     def update(self, rentId, clientId, amountOfDays, newSum, status):
+        self.connection.session.commit()
         try:
             rent = self.read(rentId)
             rent.idClient = clientId
@@ -243,17 +244,9 @@ class RentService(Service):
         return self.connection.session.query(Rent).all()
 
     def count_sum(self, rent):
-        #self.connection.session.commit()
-
-        print(f" id rent {rent.idRent}")
-        idRent_column = self.connection.session.query(Auto.idRent).all()
-
-        idRent_values = [row[0] for row in idRent_column]
-
-        print(idRent_values)
+        self.connection.session.commit()
         try:
             auto = self.connection.session.query(Auto).filter(Auto.idRent == rent.idRent).first()
-            print(auto.serialize)
             total_rent = 0
             amountOfDays = rent.amountOfDays
             total_rent += auto.rentPrice * amountOfDays
