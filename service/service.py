@@ -1,15 +1,16 @@
+import logging
 import random
 from abc import ABC, abstractmethod
 
-from sqlalchemy.orm.exc import UnmappedInstanceError
+from sqlalchemy import exc
 
-from db.dbconnection import dbConnection
+from db.dbconnection import DbConnection
 from model.models import Manager, Client, Disturbance, CustomerServiceManager, Rent, Auto
 
 
 class Service(ABC):
     def __init__(self):
-        self.connection = dbConnection()
+        self.connection = DbConnection()
 
     def create(self, *args):
         pass
@@ -39,15 +40,15 @@ class ManagerService(Service):
         try:
             self.connection.session.add(manager)
             self.connection.session.commit()
-        except Exception as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Manager create error")
 
     def read(self, managerId):
         try:
             manager = self.connection.session.query(Manager).filter_by(idManager=managerId).first()
             return manager
-        except Exception as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Manager read error")
 
     def update(self, managerId, newFullName, newDepartmentNumber):
         try:
@@ -55,16 +56,16 @@ class ManagerService(Service):
             manager.fullName = newFullName
             manager.departmentNumber = newDepartmentNumber
             self.connection.session.commit()
-        except AttributeError as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Manager update error")
 
     def remove(self, managerId):
         try:
             managerToRemove = self.read(managerId)
             self.connection.session.delete(managerToRemove)
             self.connection.session.commit()
-        except UnmappedInstanceError as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Manager remove error")
 
     def get_random_manager(self):
         managers = self.connection.session.query(Manager.idManager).all()
@@ -86,15 +87,15 @@ class ClientService(Service):
         try:
             self.connection.session.add(client)
             self.connection.session.commit()
-        except Exception as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Client create error")
 
     def read(self, clientId):
         try:
             client = self.connection.session.query(Client).filter_by(idClient=clientId).first()
             return client
-        except Exception as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Client read error")
 
     def update(self, clientId, newFullName, contactInfo):
         try:
@@ -102,16 +103,16 @@ class ClientService(Service):
             client.fullName = newFullName
             client.contactInfo = contactInfo
             self.connection.session.commit()
-        except AttributeError as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Client update error")
 
     def remove(self, clientId):
         try:
             clientToRemove = self.read(clientId)
             self.connection.session.delete(clientToRemove)
             self.connection.session.commit()
-        except UnmappedInstanceError as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Client remove error")
 
     def getAll(self):
         return self.connection.session.query(Client).all()
@@ -126,8 +127,8 @@ class DisturbanceService(Service):
         try:
             self.connection.session.add(disturbance)
             self.connection.session.commit()
-        except Exception as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Disturbance create error")
 
     def read(self, disturbanceId):
         try:
@@ -142,16 +143,16 @@ class DisturbanceService(Service):
             disturbance.idClient = newClient
             disturbance.description = description
             self.connection.session.commit()
-        except AttributeError as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Disturbance update error")
 
     def remove(self, disturbanceId):
         try:
             disturbanceToRemove = self.read(disturbanceId)
             self.connection.session.delete(disturbanceToRemove)
             self.connection.session.commit()
-        except UnmappedInstanceError as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Disturbance remove error")
 
     def getAll(self):
         return self.connection.session.query(Disturbance).all()
@@ -166,8 +167,8 @@ class CustomerServiceManagerService(Service):
         try:
             self.connection.session.add(customerServiceManager)
             self.connection.session.commit()
-        except Exception as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("CSM create error")
 
     def read(self, managerId, clientId):
         try:
@@ -175,8 +176,8 @@ class CustomerServiceManagerService(Service):
                 idManager=managerId,
                 idClient=clientId).first()
             return customerServiceManager
-        except Exception as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("CSM read error")
 
     def update(self, managerId, clientId, newManagerId, newClientId):
         try:
@@ -187,16 +188,16 @@ class CustomerServiceManagerService(Service):
                 customerServiceManager.idManager = newManagerId
                 customerServiceManager.idClient = newClientId
                 self.connection.session.commit()
-        except AttributeError as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("CSM update error")
 
     def remove(self, managerId, clientId):
         try:
             csmToRemove = self.read(managerId, clientId)
             self.connection.session.delete(csmToRemove)
             self.connection.session.commit()
-        except UnmappedInstanceError as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("CSM remove error")
 
     def getAll(self):
         return self.connection.session.query(CustomerServiceManager).all()
@@ -211,15 +212,15 @@ class RentService(Service):
         try:
             self.connection.session.add(rent)
             self.connection.session.commit()
-        except Exception as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Rent create error")
 
     def read(self, rentId):
         try:
             disturbance = self.connection.session.query(Rent).filter_by(idRent=rentId).first()
             return disturbance
-        except Exception as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Rent create error")
 
     def update(self, rentId, clientId, amountOfDays, newSum, status):
         try:
@@ -229,16 +230,16 @@ class RentService(Service):
             rent.status = status
             rent.sum = newSum
             self.connection.session.commit()
-        except AttributeError as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Rent update error")
 
     def remove(self, rentId):
         try:
             rentToRemove = self.read(rentId)
             self.connection.session.delete(rentToRemove)
             self.connection.session.commit()
-        except UnmappedInstanceError as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Rent remove error")
 
     def getAll(self):
         return self.connection.session.query(Rent).all()
@@ -251,8 +252,8 @@ class RentService(Service):
             amountOfDays = rent.amountOfDays
             total_rent += auto.rentPrice * amountOfDays
             return total_rent
-        except AttributeError as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Rent count sum error")
 
     def commit_table(self):
         self.connection.session.commit()
@@ -266,15 +267,15 @@ class AutoService(Service):
         try:
             self.connection.session.add(auto)
             self.connection.session.commit()
-        except Exception as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Auto create error")
 
     def read(self, autoId):
         try:
             auto = self.connection.session.query(Auto).filter_by(idAuto=autoId).first()
             return auto
-        except Exception as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Auto read error")
 
     def update(self, autoId, rentId, newMakeAndModel, status, rentPrice, path):
         try:
@@ -286,8 +287,8 @@ class AutoService(Service):
             auto.imagePath = path
             self.connection.session.add(auto)
             self.connection.session.commit()
-        except AttributeError as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Auto update error")
 
     def commit(self):
         self.connection.session.commit()
@@ -297,8 +298,8 @@ class AutoService(Service):
             autoToRemove = self.read(autoId)
             self.connection.session.delete(autoToRemove)
             self.connection.session.commit()
-        except UnmappedInstanceError as e:
-            raise Exception(f"Error: {str(e)}")
+        except exc.SQLAlchemyError:
+            logging.error("Auto remove error")
 
     def getAll(self):
         return self.connection.session.query(Auto).all()

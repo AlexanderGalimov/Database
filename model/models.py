@@ -2,10 +2,10 @@ from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-from db.dbconnection import dbConnection
+from db.dbconnection import DbConnection
 
 Base = declarative_base()
-connection = dbConnection()
+connection = DbConnection()
 
 
 class Manager(Base):
@@ -56,8 +56,9 @@ class Disturbance(Base):
     client = relationship("Client")
     description = Column(String(100), nullable=False)
 
-    def __init__(self, idClient):
+    def __init__(self, idClient, description):
         self.idClient = idClient
+        self.description = description
 
     @property
     def serialize(self):
@@ -122,14 +123,16 @@ class Auto(Base):
 
     idAuto = Column(Integer, primary_key=True, autoincrement=True)
     idRent = Column(Integer, ForeignKey('Rent.idRent'), nullable=True)  #
-    makeAndModel = Column(String(45), nullable=False)
+    brand = Column(String(45), nullable=False)
+    model = Column(String(45), nullable=False)
     status = Column(Integer, nullable=False)
     rentPrice = Column(Float, nullable=False)
     imagePath = Column(String(45), nullable=True)
 
-    def __init__(self, idRent, makeAndModel, status, rentPrice, imagePath):
+    def __init__(self, idRent, brand, model, status, rentPrice, imagePath):
         self.idRent = idRent
-        self.makeAndModel = makeAndModel
+        self.brand = brand
+        self.model = model
         self.status = status
         self.rentPrice = rentPrice
         self.imagePath = imagePath
@@ -139,7 +142,8 @@ class Auto(Base):
         return {
             "idAuto": self.idAuto,
             "idRent": self.idRent,
-            "makeAndModel": self.makeAndModel,
+            "brand": self.brand,
+            "model": self.model,
             "status": self.status,
             "rentPrice": self.rentPrice,
             "imagePath": self.imagePath

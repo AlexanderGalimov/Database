@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 
-class dbConnection:
+class DbConnection:
     def __init__(self):
         self.session = None
         self.engine = None

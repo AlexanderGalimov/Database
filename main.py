@@ -2,7 +2,8 @@ from flask import Flask, render_template, request
 
 from model.models import Client, Rent, CustomerServiceManager
 from service.service import AutoService, ClientService, RentService, ManagerService, CustomerServiceManagerService
-import time
+from sqlalchemy import exc
+import logging
 
 car_service = AutoService()
 client_service = ClientService()
@@ -44,24 +45,28 @@ def addRegistration():
         idAuto = int(idAuto)
         amountOfDays = int(amountOfDays)
     except TypeError:
-        print("error")
+        logging.error("incorrect data entered")
     except ValueError:
-        print("error")
+        logging.error("incorrect data entered")
 
-    client = Client(fullName, contactInfo)
-    client_service.create(client)
-    customerServiceManager = CustomerServiceManager(manager_service.get_random_manager(), client.idClient)
-    customerServiceManagerService.create(customerServiceManager)
-    auto = car_service.read(idAuto)
+    try:
+        client = Client(fullName, contactInfo)
+        client_service.create(client)
+        customerServiceManager = CustomerServiceManager(manager_service.get_random_manager(), client.idClient)
+        customerServiceManagerService.create(customerServiceManager)
+        auto = car_service.read(idAuto)
 
-    curr_rent = Rent(client.idClient, amountOfDays, 0, True)
-    rent_service.create(curr_rent)
+        curr_rent = Rent(client.idClient, amountOfDays, 0, True)
+        rent_service.create(curr_rent)
 
-    car_service.update(idAuto, curr_rent.idRent, auto.makeAndModel, False, auto.rentPrice, auto.imagePath)
+        car_service.update(idAuto, curr_rent.idRent, auto.makeAndModel, False, auto.rentPrice, auto.imagePath)
 
-    all_sum = rent_service.count_sum(curr_rent)
-    rent_service.update(curr_rent.idRent, curr_rent.idClient, curr_rent.amountOfDays, all_sum, curr_rent.status)
-    rent_service.commit_table()
+        all_sum = rent_service.count_sum(curr_rent)
+        rent_service.update(curr_rent.idRent, curr_rent.idClient, curr_rent.amountOfDays, all_sum, curr_rent.status)
+        rent_service.commit_table()
+    except exc.SQLAlchemyError:
+        logging.error("error with database operations")
+        return render_template("rent.html", idAuto=idAuto)
 
     return render_template('confirm.html')
 
