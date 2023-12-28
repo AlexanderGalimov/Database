@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,21 +9,22 @@
 <body>
 
 <div class="bg_cc">
-<!--     <header>-->
-<!--        <nav>-->
-<!--            <div class="logo-container">-->
-<!--                <img src="../static/images/sedan.png" class="logo" alt="Car Logo">-->
-<!--                <span class="logo-text">Easy Rent</span>-->
-<!--            </div>-->
-<!--            <div class="menu">-->
-<!--                <a href="{{ url_for('rent', idAuto=car.idAuto) }}">Home</a>-->
-<!--            </div>-->
-<!--        </nav>-->
-<!--    </header>-->
+    <header>
+        <nav>
+            <div class="logo-container">
+                <img src="../static/images/sedan.png" class="logo" alt="Car Logo">
+                <span class="logo-text">Easy Rent</span>
+            </div>
+            <div class="menu">
+                <a href="{{ url_for('index') }}">Home</a>
+            </div>
+        </nav>
+    </header>
     <h1 class="centered-text">Auto in stock</h1>
 
     {% for car in cars %}
     {% if car.status %}
+
     <div class="car">
         <img src="{{ car.imagePath }}" alt="auto">
         <a href="{{ url_for('rent', idAuto=car.idAuto) }}" target="_blank">{{ car.brand }}</a>

@@ -20,7 +20,6 @@ cs.create(car6)
 cs.create(car7)
 cs.create(car8)
 
-
 manager1 = Manager("Anton Ivanov", 1)
 manager2 = Manager("Vasya Petrov", 2)
 manager3 = Manager("Ivan Ivanov", 1)

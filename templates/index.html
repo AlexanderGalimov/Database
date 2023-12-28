@@ -16,15 +16,12 @@
                 <img src="../static/images/sedan.png" class="logo" alt="Car Logo">
                 <span class="logo-text">Easy Rent</span>
             </div>
-<!--            <div class="menu">-->
-<!--                <a href="#">Home</a>-->
-<!--                <a href="#">About</a>-->
-<!--                <a href="#">Contact</a>-->
-<!--            </div>-->
         </nav>
     </header>
     <div class="center-container">
-        <p class="centered-text">Driving a car is an Art</p>
+        <p class="centered-text">Available cars: {{ cars }}</p>
+        <p class="centered-text">Available managers: {{ managers }}</p>
+        <p class="centered-text">Count of our Clients: {{ clients }}</p>
         <nav>
             <div class="big_link">
                 <a href="/car_choose" target="_blank">Book a car</a>

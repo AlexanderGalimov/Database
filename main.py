@@ -16,7 +16,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    car_num = len(car_service.getAll())
+    manager_num = len(manager_service.getAll())
+    client_num = len(client_service.getAll())
+    return render_template('index.html',cars=car_num, managers=manager_num, clients=client_num)
 
 
 @app.route('/car_choose')
@@ -59,7 +62,7 @@ def addRegistration():
         curr_rent = Rent(client.idClient, amountOfDays, 0, True)
         rent_service.create(curr_rent)
 
-        car_service.update(idAuto, curr_rent.idRent, auto.makeAndModel, False, auto.rentPrice, auto.imagePath)
+        car_service.update(idAuto, curr_rent.idRent, auto.brand, auto.model, False, auto.rentPrice, auto.imagePath)
 
         all_sum = rent_service.count_sum(curr_rent)
         rent_service.update(curr_rent.idRent, curr_rent.idClient, curr_rent.amountOfDays, all_sum, curr_rent.status)

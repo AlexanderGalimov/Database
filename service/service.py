@@ -277,11 +277,12 @@ class AutoService(Service):
         except exc.SQLAlchemyError:
             logging.error("Auto read error")
 
-    def update(self, autoId, rentId, newMakeAndModel, status, rentPrice, path):
+    def update(self, autoId, rentId, newBrand, newModel, status, rentPrice, path):
         try:
             auto = self.read(autoId)
             auto.idRent = rentId
-            auto.makeAndModel = newMakeAndModel
+            auto.brand = newBrand
+            auto.model = newModel
             auto.status = status
             auto.rentPrice = rentPrice
             auto.imagePath = path
